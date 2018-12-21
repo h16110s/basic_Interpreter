@@ -30,7 +30,7 @@ public class StmtListNode extends Node{
 
     public void parse() throws Exception{
         LexicalUnit lu = env.input.get();
-        do {
+        while(true) {
             //空行を読み飛ばす
             do {
                 lu = env.getInput().get();
@@ -38,10 +38,13 @@ public class StmtListNode extends Node{
             //ちがったら抜けて一個戻す
             env.getInput().unget(lu);
 
+            //EOFならbreak
+            if(lu.getType() == LexicalType.EOF) break;
+
+
             if(StmtNode.isMatch(lu.getType())){
                 Node handler = StmtNode.getHandler(lu.getType(),env);
                 child.add(handler);
-                handler.parse();
             }
 
 //            else if(BlockNode.isMatch(lu.getType())){
@@ -50,8 +53,13 @@ public class StmtListNode extends Node{
 //                handler.parse();
 //            }
             else{
-                throw new Exception("StmtList Parse Error" + lu.getValue());
+                throw new Exception("StmtList Parse Error:" + lu);
             }
-        }while(lu.getType() != LexicalType.EOF);
+        }
+    }
+
+    @Override
+    public String toString(){
+        return "StmtList";
     }
 }
