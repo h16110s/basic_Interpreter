@@ -1,5 +1,7 @@
 package newlang4;
 
+import newlang3.Value;
+
 public class Node {
     NodeType type;
     Environment env;
@@ -18,9 +20,7 @@ public class Node {
         return type;
     }
     
-    public boolean Parse() throws Exception {
-        return true;
-    }
+    public void parse() throws Exception { }
     
     public Value getValue() throws Exception {
         return null;

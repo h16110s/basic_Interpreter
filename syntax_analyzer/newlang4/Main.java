@@ -23,11 +23,13 @@ public class Main {
 	        lex = new LexicalAnalyzerImpl(fin);
 	        env = new Environment(lex);
 	        first = lex.get();
+	        lex.unget(first);
 	        
-	        program = Program.isMatch(env, first);
-	        if (program != null && program.Parse()) {
+	        program = ProgramNode.getHandler(first.getType(), env);
+	        if (program != null ) {
+				program.parse();
 	        	System.out.println(program);
-	        	System.out.println("value = " + program.getValue());
+//	        	System.out.println("value = " + program.getValue());
 	        }
 	        else System.out.println("syntax error");
 	}
