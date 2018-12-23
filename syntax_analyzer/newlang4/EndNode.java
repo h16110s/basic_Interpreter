@@ -16,7 +16,8 @@ public class EndNode extends Node {
         return first.contains(type);
     }
 
-    public static Node getHandler(LexicalType type, Environment env) {
+    public static Node getHandler(LexicalType type, Environment env) throws Exception {
+        env.input.get();
         if(type != LexicalType.END) return null;
         return new EndNode(env);
     }

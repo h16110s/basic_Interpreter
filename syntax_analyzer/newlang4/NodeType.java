@@ -4,6 +4,7 @@ public enum NodeType {
 	PROGRAM,
 	STMT_LIST,
 	STMT,
+	SUBST_NODE,
 	FOR_STMT,
 	ASSIGN_STMT,
 	BLOCK,

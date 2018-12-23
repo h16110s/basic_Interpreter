@@ -17,18 +17,18 @@ public class Main {
 	        LexicalUnit first;
 	        Environment		env;
 	        Node			program;
-	  
+
 	        System.out.println("basic parser");
-	        fin = new FileInputStream("test.txt");
+	        fin = new FileInputStream("D:\\Git\\basic_Interpreter\\syntax_analyzer\\newlang3\\test1.bas");
 	        lex = new LexicalAnalyzerImpl(fin);
 	        env = new Environment(lex);
 	        first = lex.get();
 	        lex.unget(first);
-	        
+
 	        program = ProgramNode.getHandler(first.getType(), env);
 	        if (program != null ) {
 				program.parse();
-	        	System.out.println(program);
+//	        	System.out.println(program);
 //	        	System.out.println("value = " + program.getValue());
 	        }
 	        else System.out.println("syntax error");

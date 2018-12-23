@@ -24,4 +24,9 @@ public class ProgramNode extends Node {
             System.out.println(e.fillInStackTrace());
         }
     }
+
+    @Override
+    public String toString(){
+        return "Program";
+    }
 }

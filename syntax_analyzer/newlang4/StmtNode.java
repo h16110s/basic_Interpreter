@@ -20,9 +20,12 @@ public class StmtNode extends Node {
 
     static  Node getHandler(LexicalType type,Environment env) throws Exception{
         LexicalUnit lu = env.input.get();
+        env.getInput().unget(lu);
         switch(lu.getType()) {
             case END:
                 return EndNode.getHandler(lu.getType(), env);
+            case NAME:
+                return SubstNode.getHandler(lu.getType(), env);
             default:
                 throw new Exception("StmtNode.getHandler Error:" + lu);
         }
