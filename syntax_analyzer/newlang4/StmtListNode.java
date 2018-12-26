@@ -29,7 +29,7 @@ public class StmtListNode extends Node{
     }
 
     public void parse() throws Exception{
-        LexicalUnit lu = env.input.get();
+        LexicalUnit lu;
         while(true) {
             //空行を読み飛ばす
             do {
@@ -43,8 +43,10 @@ public class StmtListNode extends Node{
 
 
             if(StmtNode.isMatch(lu.getType())){
+//                System.out.println("Stmt Parse:" + lu);
                 Node handler = StmtNode.getHandler(lu.getType(),env);
                 child.add(handler);
+                handler.parse();
             }
 
 //            else if(BlockNode.isMatch(lu.getType())){
