@@ -65,8 +65,10 @@ public class ExprNode extends Node {
                 case INTVAL:
                 case DOUBLEVAL:
                 case LITERAL:
-                    System.out.println("Expr Node Const: " + lu);
+                    exprs.add(ConstNode.getHandler(lu,env));
                     break;
+                default:
+                    throw new Exception("Expr Node Parse Error: ");
             }
 
             lu = env.input.get();

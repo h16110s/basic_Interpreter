@@ -32,5 +32,4 @@ public class VariableNode extends Node {
     public String toString(){
         return "Variable: " + name;
     }
-
 }
