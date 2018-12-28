@@ -6,16 +6,16 @@
         字句解析インターフェース
     - LexicalAnalyzerImpl   
         字句解析の実行クラス
-    - LexicalType  
+    - LexicalType 
         字句の型
-    - LexicalUnit
+    - LexicalUnit 
         １字句分のクラス
-    - Main
-    - Value
+    - Main 
+    - Value 
         １字句の値のインターフェース
-    - ValueImpl
+    - ValueImpl 
         字句値の実行クラス
-    - ValueType
+    - ValueType 
         値の型
 
 ## SystaxAnalyzer (newlang4)
