@@ -31,12 +31,6 @@ public class ExprNode extends Node {
             LexicalType.DOUBLEVAL,
             LexicalType.LITERAL));
 
-    static final Set<LexicalType> operators = new HashSet<>(Arrays.asList(
-            LexicalType.DIV,
-            LexicalType.MUL,
-            LexicalType.SUB,
-            LexicalType.ADD));
-
     private ExprNode(Environment env){
         super(env);
         type = NodeType.EXPR;
@@ -76,6 +70,7 @@ public class ExprNode extends Node {
                 System.out.println("Expr Node Operator: " + lu);
             }
             else{
+                env.getInput().unget(lu);
                 break;
             }
         }

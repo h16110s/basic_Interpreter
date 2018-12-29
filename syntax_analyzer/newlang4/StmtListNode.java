@@ -38,9 +38,6 @@ public class StmtListNode extends Node{
             //ちがったら抜けて一個戻す
             env.getInput().unget(lu);
 
-            //EOFならbreak
-            if(lu.getType() == LexicalType.EOF) break;
-
 
             if(StmtNode.isMatch(lu.getType())){
 //                System.out.println("Stmt Parse:" + lu);
@@ -49,15 +46,17 @@ public class StmtListNode extends Node{
                 handler.parse();
             }
 
-//            else if(BlockNode.isMatch(lu.getType())){
-//                Node handler = BlockNode.getHandler(lu.getType(),env);
-//                child.add(handler);
-//                handler.parse();
-//            }
+            else if(BlockNode.isMatch(lu.getType())){
+                Node handler = BlockNode.getHandler(lu.getType(),env);
+                child.add(handler);
+                handler.parse();
+            }
             else{
-                throw new Exception("StmtList Parse Error:" + lu);
+                break;
             }
         }
+        //EOFならbreak
+        if(lu.getType() == LexicalType.EOF) throw new Exception("StmtList Error: EOF" );
     }
 
     @Override

@@ -17,6 +17,9 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
     Deque<LexicalUnit> ungetStack = new ArrayDeque<LexicalUnit>();
 
     PushbackReader reader;
+
+    int line;
+
     //予約語のmap
     static HashMap<String,LexicalType> reserve = new HashMap<>();
     //記号のmap
@@ -27,6 +30,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
     public  LexicalAnalyzerImpl(InputStream in){
         Reader ir = new InputStreamReader(in);
         reader = new PushbackReader(ir);
+        line = 1;
         //予約語，記号，関数リスト の作成
         makeList();
     }
@@ -54,6 +58,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
 
             //New Line
             else if(c == '\n'){
+                line++;
                 return new LexicalUnit(LexicalType.NL);
             }
 
@@ -212,6 +217,11 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
     @Override
     public boolean expect(LexicalType type) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int getLine(){
+        return this.line;
     }
 
     @Override
