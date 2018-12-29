@@ -20,12 +20,24 @@ public class StmtNode extends Node {
 
     static  Node getHandler(LexicalType type,Environment env) throws Exception{
         LexicalUnit lu = env.input.get();
-        env.getInput().unget(lu);
         switch(lu.getType()) {
             case END:
                 return EndNode.getHandler(lu.getType(), env);
             case NAME:
-                return SubstNode.getHandler(lu.getType(), env);
+                LexicalUnit second_unit = env.getInput().get();
+                //2個分戻す
+                env.getInput().unget(lu);
+                env.getInput().unget(second_unit);
+
+                if(second_unit.getType() == LexicalType.EQ)
+                    return SubstNode.getHandler(lu.getType(), env);
+
+                else if(CallSubNode.isMatch(lu.getType()))
+                    return CallSubNode.getHandler(lu.getType(),env);
+
+                else{
+                    throw new Exception("Syntax error StmtNode: " + second_unit);
+                }
             default:
                 throw new Exception("StmtNode.getHandler Error:" + lu);
         }

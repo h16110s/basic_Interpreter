@@ -19,6 +19,7 @@ public class EndNode extends Node {
     public static Node getHandler(LexicalType type, Environment env) throws Exception {
         env.input.get();
         if(type != LexicalType.END) return null;
+        System.out.println("Program END");
         return new EndNode(env);
     }
 

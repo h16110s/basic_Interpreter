@@ -82,6 +82,7 @@ public class LoopBlockNode extends Node {
 //        <DO>
         else if(lu.getType() == LexicalType.DO){
             LexicalUnit second_unit = env.getInput().get();
+
             if(second_unit.getType() == LexicalType.WHILE
                     ||second_unit.getType() == LexicalType.UNTIL) {
 

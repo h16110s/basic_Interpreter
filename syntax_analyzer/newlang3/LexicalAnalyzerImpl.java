@@ -14,7 +14,7 @@ import java.util.Queue;
  * @author Hirohito Saito
  */
 public class LexicalAnalyzerImpl implements LexicalAnalyzer {
-    Deque<LexicalUnit> ungetStack = new ArrayDeque<LexicalUnit>();
+    Queue<LexicalUnit> ungetQue = new ArrayDeque<LexicalUnit>();
 
     PushbackReader reader;
 
@@ -38,8 +38,8 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
     @Override
     public LexicalUnit get() throws Exception {
 
-        if(ungetStack.size() > 0){
-            return ungetStack.poll();
+        if(ungetQue.size() > 0){
+            return ungetQue.poll();
         }
 
         while(true){
@@ -159,7 +159,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
             int ci = reader.read();
             char c = (char) ci;
             //連続記号なら取得
-            if (symbols.containsKey(c)) {
+            if (symbols.containsKey(target + c)) {
                 target += c;
                 continue;
             }
@@ -207,10 +207,9 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         symbols.put("-",LexicalType.SUB);
         symbols.put("*",LexicalType.MUL);
         symbols.put("/",LexicalType.DIV);
-        symbols.put(")",LexicalType.LP);
-        symbols.put("(",LexicalType.RP);
+        symbols.put(")",LexicalType.RP);
+        symbols.put("(",LexicalType.LP);
         symbols.put(",",LexicalType.COMMA);
-        functions.put("PRINT",LexicalType.FUNCTION);
     }
 
 
@@ -226,7 +225,7 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
 
     @Override
     public void unget(LexicalUnit token) throws Exception {
-        ungetStack.add(token);
+        ungetQue.add(token);
     }
     
 }

@@ -56,7 +56,7 @@ public class StmtListNode extends Node{
             }
         }
         //EOFならbreak
-        if(lu.getType() == LexicalType.EOF) throw new Exception("StmtList Error: EOF" );
+//        if(lu.getType() == LexicalType.EOF) throw new Exception("StmtList Error: EOF" );
     }
 
     @Override
