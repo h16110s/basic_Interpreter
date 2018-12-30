@@ -29,11 +29,14 @@ public class StmtNode extends Node {
                 env.getInput().unget(lu);
                 env.getInput().unget(second_unit);
 
-                if(second_unit.getType() == LexicalType.EQ)
+                if(second_unit.getType() == LexicalType.EQ){
                     return SubstNode.getHandler(lu.getType(), env);
+                }
 
-                else if(CallSubNode.isMatch(lu.getType()))
+                else if(CallSubNode.isMatch(lu.getType())){
                     return CallSubNode.getHandler(lu.getType(),env);
+                }
+
 
                 else{
                     throw new Exception("Syntax error StmtNode: " + second_unit);
@@ -44,10 +47,4 @@ public class StmtNode extends Node {
     }
 
     public void parse(){ }
-
-
-    @Override
-    public String toString(){
-        return "Stmt";
-    }
 }

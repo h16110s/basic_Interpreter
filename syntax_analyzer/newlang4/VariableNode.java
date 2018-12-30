@@ -29,7 +29,8 @@ public class VariableNode extends Node {
         return new VariableNode(env);
     }
 
+    @Override
     public String toString(){
-        return "Variable: " + name;
+        return this.name;
     }
 }

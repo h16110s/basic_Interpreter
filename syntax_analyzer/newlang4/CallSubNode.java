@@ -54,4 +54,9 @@ public class CallSubNode extends Node{
             throw new Exception("CallSub missing \")\"" + env.getInput().getLine());
 
     }
+
+    @Override
+    public String toString(){
+        return name + exprList.toString();
+    }
 }

@@ -34,7 +34,7 @@ public class Main {
 			program = ProgramNode.getHandler(first.getType(), env);
 			if (program != null ) {
 				program.parse();
-		//	        	System.out.println(program);
+			        	System.out.println(program);
 		//	        	System.out.println("value = " + program.getValue());
 			}
 

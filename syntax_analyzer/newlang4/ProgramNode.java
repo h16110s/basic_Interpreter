@@ -27,6 +27,6 @@ public class ProgramNode extends Node {
 
     @Override
     public String toString(){
-        return "Program";
+        return stmtlist_handler.toString();
     }
 }

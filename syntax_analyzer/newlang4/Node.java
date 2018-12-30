@@ -10,7 +10,7 @@ import java.util.Set;
 public class Node {
     NodeType type;
     Environment env;
-    static final Set<LexicalType> operators = new HashSet<>(Arrays.asList(
+    static final Set<LexicalType> OPERATORS = new HashSet<>(Arrays.asList(
             LexicalType.DIV,
             LexicalType.MUL,
             LexicalType.SUB,

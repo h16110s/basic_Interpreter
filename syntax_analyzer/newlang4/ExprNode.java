@@ -3,6 +3,7 @@ package newlang4;
 import jdk.nashorn.internal.runtime.ECMAException;
 import newlang3.LexicalType;
 import newlang3.LexicalUnit;
+import newlang3.Value;
 
 import java.util.*;
 //
@@ -20,9 +21,10 @@ import java.util.*;
 //	| <call_func>
 
 public class ExprNode extends Node {
-    LexicalType operator;
-    Node left;
-    Node right;
+    List<LexicalType> operators = new ArrayList<>();
+    List<Node> operands = new ArrayList<>();
+    private Node left;
+    private Node right;
 
     static final Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(
             LexicalType.NAME,
@@ -44,35 +46,49 @@ public class ExprNode extends Node {
     }
 
     public void parse() throws Exception{
-        List<Node> exprs = new ArrayList<>();
-
         while(true){
 //      <Operand>
             LexicalUnit lu = env.input.get();
             switch (lu.getType()){
                 case NAME:
-                    exprs.add(VariableNode.getHandler(lu.getType(),env));
-                    System.out.println( "Expr Node: " + lu);
+                    env.getInput().unget(lu);
+                    Node vn = VariableNode.getHandler(lu.getType(),env);
+                    operands.add(vn);
+                    vn.parse();
+//                    System.out.println( "Expr Node: " + lu);
                     break;
                 case LP:
                     break;
                 case INTVAL:
                 case DOUBLEVAL:
                 case LITERAL:
-                    exprs.add(ConstNode.getHandler(lu,env));
+                    Node cn = ConstNode.getHandler(lu,env);
+                    operands.add(cn);
+                    cn.parse();
                     break;
                 default:
                     throw new Exception("Expr Node Parse Error: ");
             }
 
             lu = env.input.get();
-            if(operators.contains(lu.getType())){
-                System.out.println("Expr Node Operator: " + lu);
+            if(OPERATORS.contains(lu.getType())){
+                operators.add(lu.getType());
             }
             else{
                 env.getInput().unget(lu);
                 break;
             }
         }
+
+    }
+
+    @Override
+    public String toString(){
+        String tmp ="";
+        if(!operators.isEmpty()){
+            tmp += operators;
+        }
+        tmp += operands.toString();
+        return tmp;
     }
 }

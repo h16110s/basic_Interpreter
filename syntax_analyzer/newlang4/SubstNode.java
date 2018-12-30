@@ -30,7 +30,7 @@ public class SubstNode extends Node {
         LexicalUnit lu;
         //<NAME>
         leftVar = env.input.get();
-        System.out.println("Subst leftvar: " + leftVar);
+//        System.out.println("Subst leftvar: " + leftVar);
 
         //<EQ>
         lu = env.getInput().get();
@@ -50,5 +50,9 @@ public class SubstNode extends Node {
         }
     }
 
+    @Override
+    public String toString(){
+        return leftVar.getValue().getSValue() + expr_handler.toString();
+    }
 
 }

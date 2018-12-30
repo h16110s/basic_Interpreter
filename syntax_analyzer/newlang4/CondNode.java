@@ -18,6 +18,7 @@ import java.util.Set;
 public class CondNode extends Node {
     Node right;
     Node left;
+    LexicalUnit operator_unit;
     static final Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(
             LexicalType.NAME,
             LexicalType.LP,
@@ -47,7 +48,7 @@ public class CondNode extends Node {
         }
         else throw new Exception("Cond LeftExpr Parse Error: "+env.getInput().getLine());
 
-        LexicalUnit operator_unit = env.input.get();
+        operator_unit = env.input.get();
         if(!condOperators.contains(operator_unit.getType()))
             throw new  Exception("Cond Operator missing: " + env.getInput().getLine());
 
@@ -57,5 +58,10 @@ public class CondNode extends Node {
             right = ExprNode.getHandler(rightExpr_unit.getType(),env);
             right.parse();
         }else throw new Exception("Cond RightExpr Parse Error: "+env.getInput().getLine());
+    }
+
+    @Override
+    public String toString(){
+        return operator_unit.getType().toString() + "["+right.toString() + ":" + left.toString()+"]";
     }
 }

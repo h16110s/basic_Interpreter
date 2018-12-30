@@ -28,7 +28,7 @@ public class ConstNode extends Node {
                 break;
         }
         const_value = lu;
-        System.out.println("ConstNode " + lu);
+//        System.out.println("ConstNode " + lu);
     }
 
     public static Node getHandler(LexicalUnit lu, Environment env){
@@ -37,5 +37,19 @@ public class ConstNode extends Node {
 
     public static boolean isMatch(LexicalType type){
         return first.contains(type);
+    }
+
+    @Override
+    public String toString(){
+        switch (const_value.getValue().getType()){
+            case INTEGER:
+                return  String.valueOf(const_value.getValue().getIValue());
+            case DOUBLE:
+                return String.valueOf(const_value.getValue().getDValue());
+            case STRING:
+                return const_value.getValue().getSValue();
+                default:
+                    return null;
+        }
     }
 }

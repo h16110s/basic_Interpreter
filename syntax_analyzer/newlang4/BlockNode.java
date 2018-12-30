@@ -39,4 +39,5 @@ public class BlockNode extends Node{
     }
 
     public void parse() {}
+
 }

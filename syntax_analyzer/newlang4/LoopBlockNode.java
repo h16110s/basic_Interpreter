@@ -170,4 +170,9 @@ public class LoopBlockNode extends Node {
         else throw new Exception("Syntax Error WHILE block" + env.getInput().getLine());
     }
 
+    @Override
+    public String toString(){
+        return "LOOP[" +  cond_handler.toString() + stmtList_handler.toString() + "]";
+    }
+
 }

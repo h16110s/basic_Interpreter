@@ -55,12 +55,16 @@ public class StmtListNode extends Node{
                 break;
             }
         }
-        //EOFならbreak
-//        if(lu.getType() == LexicalType.EOF) throw new Exception("StmtList Error: EOF" );
     }
 
     @Override
     public String toString(){
-        return "StmtList";
+        String tmp = "";
+
+        for(int i = 0; i< child.size() ; i++){
+            tmp += child.get(i).toString() + ";";
+        }
+
+        return tmp;
     }
 }
