@@ -37,7 +37,6 @@ public class StmtNode extends Node {
                     return CallSubNode.getHandler(lu.getType(),env);
                 }
 
-
                 else{
                     throw new Exception("Syntax error StmtNode: " + second_unit);
                 }

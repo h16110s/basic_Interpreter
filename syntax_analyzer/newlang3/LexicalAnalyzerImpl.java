@@ -179,6 +179,8 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
         reserve.put("IF",LexicalType.IF);
         reserve.put("THEN",LexicalType.THEN);
         reserve.put("ELSE",LexicalType.ELSE);
+        reserve.put("ELSEIF", LexicalType.ELSEIF);
+        reserve.put("ENDIF",LexicalType.ENDIF);
         reserve.put("FOR",LexicalType.FOR);
         reserve.put("FORALL",LexicalType.FORALL);
         reserve.put("NEXT",LexicalType.NEXT);

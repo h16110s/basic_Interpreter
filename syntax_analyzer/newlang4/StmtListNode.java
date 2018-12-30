@@ -38,7 +38,6 @@ public class StmtListNode extends Node{
             //ちがったら抜けて一個戻す
             env.getInput().unget(lu);
 
-
             if(StmtNode.isMatch(lu.getType())){
 //                System.out.println("Stmt Parse:" + lu);
                 Node handler = StmtNode.getHandler(lu.getType(),env);

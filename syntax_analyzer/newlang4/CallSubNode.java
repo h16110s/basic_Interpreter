@@ -35,10 +35,11 @@ public class CallSubNode extends Node{
             throw new Exception("CallSub parse error:" + env.getInput().getLine());
         this.name = name_unit.getValue().getSValue();
 
-//        <LP>
+//        <LP> あったら回収
         lp_unit = env.getInput().get();
         if(lp_unit.getType() != LexicalType.LP)
-            throw new Exception("CallSub missing \"(\"" + env.getInput().getLine());
+            env.getInput().unget(lp_unit);
+//            throw new Exception("CallSub missing \"(\"" + env.getInput().getLine());
 
 //        <Expr>
         LexicalUnit expr_unit = env.getInput().get();
@@ -48,10 +49,12 @@ public class CallSubNode extends Node{
             this.exprList.parse();
         }
 
-//        <RP>
+//        <RP>　あったら回収
         LexicalUnit rp_unit = env.getInput().get();
         if(rp_unit.getType() != LexicalType.RP)
-            throw new Exception("CallSub missing \")\"" + env.getInput().getLine());
+            env.getInput().unget(rp_unit);
+//            throw new Exception("CallSub missing \")\"" + env.getInput().getLine());
+
 
     }
 
