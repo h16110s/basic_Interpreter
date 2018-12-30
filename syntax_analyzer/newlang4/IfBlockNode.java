@@ -21,7 +21,7 @@ import java.util.Set;
 
 
 public class IfBlockNode extends Node {
-    static Set<LexicalType>  first = new HashSet<LexicalType>(Arrays.asList(LexicalType.IF));
+    static Set<LexicalType>  first = new HashSet<LexicalType>(Arrays.asList(LexicalType.IF,LexicalType.ELSEIF));
     Node cond_handler = null;
     Node stmt_handler = null;
     Node else_if_stmt_handler = null;
@@ -34,7 +34,7 @@ public class IfBlockNode extends Node {
     }
 
     public static Node getHandler(LexicalType type, Environment env) {
-        if(type != LexicalType.IF) return null;
+        if(!isMatch(type)) return null;
         return new IfBlockNode(env);
     }
     private IfBlockNode(Environment env){
@@ -51,7 +51,7 @@ public class IfBlockNode extends Node {
 
 //        <COND>
         if(!CondNode.isMatch(f.getType()))
-            throw new Exception("IFBlockNode cond Parse Error:");
+            throw new Exception("IFBlockNode cond Parse Error:" + env.getInput().getLine());
         cond_handler = CondNode.getHandler(f.getType(),env);
         cond_handler.parse();
 
@@ -77,9 +77,15 @@ public class IfBlockNode extends Node {
             else if(third_unit.getType() == LexicalType.ELSE){
                 else_stmt_handler = StmtNode.getHandler(stmt_unit.getType(), env);
                 else_stmt_handler.parse();
+                if(env.getInput().get().getType() != LexicalType.NL){
+                    throw new Exception("IFBlock Needs NL:"+ env.getInput().getLine());
+                }
             }
+//            <NL>
+            LexicalUnit nl_unit = env.getInput().get();
+            if(nl_unit.getType() != LexicalType.NL)
+                throw new Exception("IFBlockNode End need NL:" + env.getInput().getLine());
         }
-
 
 //        <NL>
         else if (stmt_unit.getType() == LexicalType.NL){
@@ -89,7 +95,7 @@ public class IfBlockNode extends Node {
             LexicalUnit else_unit = env.getInput().get();
             if (else_unit.getType() == LexicalType.ELSEIF){
                 env.getInput().unget(else_unit);
-                else_if_stmt_handler = IfBlockNode.getHandler(stmt_unit.getType(), env);
+                else_if_stmt_handler = IfBlockNode.getHandler(else_unit.getType(), env);
                 else_if_stmt_handler.parse();
             }
 
@@ -106,23 +112,26 @@ public class IfBlockNode extends Node {
                     else_stmt_handler.parse();
                 }
             }
-            else{
-               throw new Exception("Syntax Error missing ELSE or ELSE IF" + env.getInput().getLine());
-            }
 
-            LexicalUnit endif_unit = env.getInput().get();
-            if(endif_unit.getType() != LexicalType.ENDIF){
-                throw new Exception("Missing ENDIF:" + env.getInput().getLine());
+            else if(else_unit.getType() == LexicalType.ENDIF){
+                env.getInput().unget(else_unit);
+            }
+//            else{
+//               throw new Exception("Syntax Error missing ELSE or ELSE IF" + env.getInput().getLine());
+//            }
+
+            if(else_if_stmt_handler == null) {
+                LexicalUnit endif_unit = env.getInput().get();
+                if (endif_unit.getType() != LexicalType.ENDIF) {
+                    throw new Exception("Missing ENDIF:" + env.getInput().getLine());
+                }
+                LexicalUnit nl_unit = env.getInput().get();
+                if(nl_unit.getType() != LexicalType.NL)
+                    throw new Exception("IFBlockNode End need NL:" + env.getInput().getLine());
             }
         }
-
         else
             throw new Exception("Syntax Error IFBlockNode: " + env.getInput().getLine());
-
-        LexicalUnit nl_unit = env.getInput().get();
-        if(nl_unit.getType() != LexicalType.NL)
-            throw new Exception("IFBlockNode End need NL:" + env.getInput().getLine());
-
     }
 
 

@@ -9,7 +9,7 @@
 //public class Main {
 //    public static void main(String[] args) {
 //        //1. プログラムコードのOPEN
-//        String fname = "/Users/hiro16110/Downloads/program/newlang3/test1.bas";
+//        String fname = "/Users/hiro16110/gLocal/basic_interpreter/syntax_analyzer/newlang3/test1.bas";
 //        if (args.length > 0){
 //            fname = args[0];
 //        }
