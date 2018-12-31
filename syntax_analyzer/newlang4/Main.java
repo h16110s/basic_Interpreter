@@ -17,34 +17,27 @@ public class Main {
 		LexicalAnalyzer lex;
 		LexicalUnit first;
 		Environment		env;
-		Node			program;
+		Node program;
 //		String path = /"D:\\Git\\basic_Interpreter\\syntax_analyzer\\newlang3\\test1.bas";
 		String path = "/Users/hiro16110/gLocal/basic_interpreter/syntax_analyzer/newlang3/test1.bas";
 
 		System.out.println("basic parser");
 		try {
 			fin = new FileInputStream(path);
-
-
 			lex = new LexicalAnalyzerImpl(fin);
 			env = new Environment(lex);
 			first = lex.get();
 			lex.unget(first);
-
 			program = ProgramNode.getHandler(first.getType(), env);
-			if (program != null ) {
+			if (program != null) {
 				program.parse();
-			        	System.out.println(program);
-		//	        	System.out.println("value = " + program.getValue());
+				System.out.println(program);
+//	        	System.out.println("value = " + program.getValue());
 			}
-
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			e.fillInStackTrace();
 		} catch (Exception e) {
 			e.fillInStackTrace();
 		}
-
-
 	}
-
 }

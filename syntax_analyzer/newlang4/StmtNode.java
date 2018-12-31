@@ -8,7 +8,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class StmtNode extends Node {
-    static final Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(LexicalType.FOR, LexicalType.END, LexicalType.NAME));
+    static final Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(
+            LexicalType.FOR,
+            LexicalType.END,
+            LexicalType.NAME));
     private StmtNode(Environment env){
         super(env);
         type = NodeType.STMT;

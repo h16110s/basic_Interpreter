@@ -4,9 +4,8 @@ import newlang3.LexicalType;
 import newlang3.LexicalUnit;
 
 import java.util.*;
-import java.util.concurrent.BlockingDeque;
 
-public class StmtListNode extends Node{
+public class StmtListNode extends Node {
     List<Node> child = new ArrayList<>();
     static final Set<LexicalType> first = new HashSet<>(Arrays.asList(
             LexicalType.IF,
@@ -39,7 +38,6 @@ public class StmtListNode extends Node{
             env.getInput().unget(lu);
 
             if(StmtNode.isMatch(lu.getType())){
-//                System.out.println("Stmt Parse:" + lu);
                 Node handler = StmtNode.getHandler(lu.getType(),env);
                 child.add(handler);
                 handler.parse();

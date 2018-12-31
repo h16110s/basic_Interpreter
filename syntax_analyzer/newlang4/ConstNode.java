@@ -26,6 +26,9 @@ public class ConstNode extends Node {
             case STRING:
                 type = NodeType.STRING_CONSTANT;
                 break;
+            case BOOL:
+                type = NodeType.BOOL_CONSTANT;
+                break;
         }
         const_value = lu;
 //        System.out.println("ConstNode " + lu);

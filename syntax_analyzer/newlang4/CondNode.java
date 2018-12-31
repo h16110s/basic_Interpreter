@@ -48,7 +48,7 @@ public class CondNode extends Node {
         }
         else throw new Exception("Cond LeftExpr Parse Error: "+env.getInput().getLine());
 
-        operator_unit = env.input.get();
+        operator_unit = env.getInput().get();
         if(!condOperators.contains(operator_unit.getType()))
             throw new  Exception("Cond Operator missing: " + env.getInput().getLine());
 
@@ -62,6 +62,6 @@ public class CondNode extends Node {
 
     @Override
     public String toString(){
-        return operator_unit.getType().toString() + "["+right.toString() + ":" + left.toString()+"]";
+        return operator_unit.getType().toString() + "["+ left.toString()+ ":" +right.toString()+"]";
     }
 }

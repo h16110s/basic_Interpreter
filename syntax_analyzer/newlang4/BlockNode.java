@@ -1,7 +1,6 @@
 package newlang4;
 
 import newlang3.LexicalType;
-import sun.java2d.pipe.LoopBasedPipe;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -18,7 +17,7 @@ import java.util.Set;
 //	| <DO> <NL> <stmt_list> <LOOP> <WHILE> <cond> <NL>
 //	| <DO> <NL> <stmt_list> <LOOP> <UNTIL> <cond> <NL>
 
-public class BlockNode extends Node{
+public class BlockNode extends Node {
     static final Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(
             LexicalType.IF,
             LexicalType.DO,

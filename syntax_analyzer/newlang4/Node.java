@@ -2,10 +2,10 @@ package newlang4;
 
 import newlang3.LexicalType;
 import newlang3.Value;
+import newlang4.Environment;
+import newlang4.NodeType;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Node {
     NodeType type;
@@ -33,9 +33,25 @@ public class Node {
             LexicalType.LP,
             LexicalType.RP
     ));
+    static final Map<LexicalType,String> getSymbol = new HashMap<>();
+    static{
+            getSymbol.put(LexicalType.EQ,"=");
+            getSymbol.put(LexicalType.LT,"<");
+            getSymbol.put(LexicalType.GT,">");
+            getSymbol.put(LexicalType.LE,"<=");
+            getSymbol.put(LexicalType.GE,">=");
+            getSymbol.put(LexicalType.NE,"<>");
+            getSymbol.put(LexicalType.DOT,".");
+            getSymbol.put(LexicalType.ADD,"+");
+            getSymbol.put(LexicalType.SUB,"-");
+            getSymbol.put(LexicalType.MUL,"*");
+            getSymbol.put(LexicalType.DIV,"/");
+            getSymbol.put(LexicalType.LP,")");
+            getSymbol.put(LexicalType.RP,"(");
+    }
 
 
-    /** Creates a new instance of Node */
+    /** Creates a ,","new instance of Node */
     public Node() {
     }
     public Node(NodeType my_type) {

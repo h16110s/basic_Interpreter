@@ -2,13 +2,12 @@ package newlang4;
 
 import newlang3.LexicalType;
 import newlang3.LexicalUnit;
-import sun.nio.ch.SelectorImpl;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CallSubNode extends Node{
+public class CallSubNode extends Node {
     static Set<LexicalType> first = new HashSet<>(Arrays.asList(LexicalType.NAME));
     String name;
     Node exprList;
@@ -38,8 +37,8 @@ public class CallSubNode extends Node{
 //        <LP> あったら回収
         lp_unit = env.getInput().get();
         if(lp_unit.getType() != LexicalType.LP)
-            env.getInput().unget(lp_unit);
-//            throw new Exception("CallSub missing \"(\"" + env.getInput().getLine());
+            throw new Exception("CallSub missing \"(\"" + env.getInput().getLine());
+//            env.getInput().unget(lp_unit);
 
 //        <Expr>
         LexicalUnit expr_unit = env.getInput().get();
@@ -52,8 +51,8 @@ public class CallSubNode extends Node{
 //        <RP>　あったら回収
         LexicalUnit rp_unit = env.getInput().get();
         if(rp_unit.getType() != LexicalType.RP)
-            env.getInput().unget(rp_unit);
-//            throw new Exception("CallSub missing \")\"" + env.getInput().getLine());
+            throw new Exception("CallSub missing \")\"" + env.getInput().getLine());
+//            env.getInput().unget(rp_unit);
 
 
     }

@@ -1,9 +1,7 @@
 package newlang4;
 
-import jdk.nashorn.internal.runtime.ECMAException;
 import newlang3.LexicalType;
 import newlang3.LexicalUnit;
-import newlang3.Value;
 
 import java.util.*;
 //
@@ -48,14 +46,14 @@ public class ExprNode extends Node {
     public void parse() throws Exception{
         while(true){
 //      <Operand>
-            LexicalUnit lu = env.input.get();
+            LexicalUnit lu = env.getInput().get();
             switch (lu.getType()){
                 case NAME:
                     env.getInput().unget(lu);
                     Node vn = VariableNode.getHandler(lu.getType(),env);
                     operands.add(vn);
                     vn.parse();
-//                    System.out.println( "Expr Node: " + lu);
+
                     break;
                 case LP:
                     break;
@@ -70,7 +68,7 @@ public class ExprNode extends Node {
                     throw new Exception("Expr Node Parse Error: ");
             }
 
-            lu = env.input.get();
+            lu = env.getInput().get();
             if(OPERATORS.contains(lu.getType())){
                 operators.add(lu.getType());
             }
