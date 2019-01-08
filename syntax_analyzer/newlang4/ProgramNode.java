@@ -10,7 +10,7 @@ public class ProgramNode extends Node {
         type = NodeType.PROGRAM;
     }
 
-    static Node getHandler(LexicalType type, Environment env){
+    public static Node getHandler(LexicalType type, Environment env){
         return new ProgramNode(env);
     }
 
