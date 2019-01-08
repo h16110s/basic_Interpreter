@@ -53,9 +53,16 @@ public class ExprNode extends Node {
                     Node vn = VariableNode.getHandler(lu.getType(),env);
                     operands.add(vn);
                     vn.parse();
-
                     break;
                 case LP:
+                    LexicalUnit lp_unit = env.getInput().get();
+                    env.getInput().unget(lp_unit);
+                    Node n = ExprNode.getHandler(lp_unit.getType(), env);
+                    n.parse();
+                    LexicalUnit rp_unit = env.getInput().get();
+                    if(rp_unit.getType() != LexicalType.RP)
+                        throw new Exception("Expr Node Missing RP: " + env.getInput().getLine());
+                    operands.add(n);
                     break;
                 case INTVAL:
                 case DOUBLEVAL:
@@ -77,16 +84,43 @@ public class ExprNode extends Node {
                 break;
             }
         }
-
     }
 
     @Override
     public String toString(){
-        String tmp ="";
-        if(!operators.isEmpty()){
-            tmp += operators;
+        String tmp ="[";
+//        if(!operators.isEmpty()){
+//            tmp += operators;
+//        }
+        for(int i = 0 ; i < operators.size(); i++){
+            switch (operators.get(i)){
+                case ADD:
+                    tmp += "+";
+                    break;
+                case SUB:
+                    tmp += "-";
+                    break;
+                case DIV:
+                    tmp += "/";
+                    break;
+                case MUL:
+                    tmp += "*";
+                    break;
+                default:
+                        break;
+            }
         }
-        tmp += operands.toString();
-        return tmp;
+        tmp += ":";
+
+        for(int i = 0 ; i < operands.size() -1 ; i++) {
+            tmp += operands.get(i);
+            if (operands.get(i + 1) != null)
+                tmp += ",";
+            else {
+                break;
+            }
+        }
+        tmp += operands.get(operands.size()-1).toString();
+        return tmp + "]";
     }
 }

@@ -62,6 +62,6 @@ public class CondNode extends Node {
 
     @Override
     public String toString(){
-        return operator_unit.getType().toString() + "["+ left.toString()+ ":" +right.toString()+"]";
+        return operator_unit.getType().toString() + left.toString()+ ":" +right.toString();
     }
 }
