@@ -9,6 +9,7 @@ public class VariableNode extends Node {
     static final Set<LexicalType> first = new HashSet<>(Arrays.asList(LexicalType.NAME));
     private String name;
 
+
     private VariableNode(Environment env){
         super(env);
         type = NodeType.VARIABLE;

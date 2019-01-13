@@ -2,7 +2,7 @@ package newlang5;
 
 
 import newlang3.Value;
-
+import newlang4.ExprListNode;
 /**
  *
  * @author tago
@@ -15,7 +15,7 @@ public class Function {
 
     //関数呼び出し
     //ExprListで引数渡しをしなくても良い
-    public Value invoke(ExprList arg) {
+    public Value invoke(ExprListNode arg) {
     	return null;        
     }
     

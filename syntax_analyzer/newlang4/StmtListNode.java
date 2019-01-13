@@ -2,6 +2,7 @@ package newlang4;
 
 import newlang3.LexicalType;
 import newlang3.LexicalUnit;
+import newlang3.Value;
 
 import java.util.*;
 
@@ -63,5 +64,14 @@ public class StmtListNode extends Node {
         }
 
         return tmp;
+    }
+
+
+
+    public Value getValue() throws Exception {
+        for(Node n : child){
+            n.getValue();
+        }
+        return null;
     }
 }
