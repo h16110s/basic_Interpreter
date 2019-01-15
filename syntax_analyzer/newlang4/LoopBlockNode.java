@@ -2,6 +2,7 @@ package newlang4;
 
 import newlang3.LexicalType;
 import newlang3.LexicalUnit;
+import newlang3.Value;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -175,4 +176,14 @@ public class LoopBlockNode extends Node {
         return "LOOP[" +  cond_handler.toString() + stmtList_handler.toString() + "]";
     }
 
+    @Override
+    public Value getValue() throws Exception {
+        Value cv;
+        while (true){
+            cv = cond_handler.getValue();
+            if(cv.getBValue()) break;
+            stmtList_handler.getValue();
+        }
+        return null;
+    }
 }

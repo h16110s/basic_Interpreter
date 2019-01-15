@@ -229,5 +229,4 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
     public void unget(LexicalUnit token) throws Exception {
         ungetQue.add(token);
     }
-    
 }

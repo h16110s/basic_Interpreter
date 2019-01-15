@@ -1,6 +1,7 @@
 package newlang5;
 
 import newlang3.LexicalAnalyzer;
+import newlang4.VariableNode;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,11 +25,11 @@ public class Environment extends newlang4.Environment {
 
 	    //変数そのものはvar_mapに格納
 		//変数の記録はここで行われる．
-	    public Variable getVariable(String vname) {
-	        Variable v;
-	        v = (Variable) var_map.get(vname);
+	    public VariableNode getVariable(String vname) {
+	        VariableNode v;
+	        v = (VariableNode) var_map.get(vname);
 	        if (v == null) {
-	            v = new Variable(vname);
+	            v = new VariableNode(vname);
 	            var_map.put(vname, v);
 	        }
 	        return v;

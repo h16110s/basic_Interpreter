@@ -15,35 +15,35 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-	       FileInputStream fin = null;
-	        LexicalAnalyzer lex;
-	        LexicalUnit first;
-	        Environment env;
-	        Node program;
-	  
-	        System.out.println("basic parser");
-	        try {
-	            fin = new FileInputStream("test.txt");
-				lex = new LexicalAnalyzerImpl(fin);
-				env = new Environment(lex);
-				first = env.getInput().get();
-				env.getInput().unget(first);
-				program = ProgramNode.getHandler(first.getType(), env);
-				if (program != null ) {
-					program.parse();
-					program.getValue();
-				}
-				else System.out.println("syntax error");
+		FileInputStream fin = null;
+		LexicalAnalyzer lex;
+		LexicalUnit		first;
+		Environment		env;
+		Node			prog;
+		System.out.println("basic parser");
+		try {
+			fin = new FileInputStream("/Users/hiro16110/gLocal/basic_interpreter/syntax_analyzer/newlang5/test.bas");
+		}
+		catch(Exception e) {
+			System.out.println("file not found");
+			System.exit(-1);
+		}
+		lex = new LexicalAnalyzerImpl(fin);
+		env = new Environment(lex);
 
-	        }
-	        catch(FileNotFoundException e) {
-	            System.out.println("file not found");
-	            System.exit(-1);
-	        }
-	        catch (Exception e){
-				System.out.println(e.fillInStackTrace());
+		try {
+			first = lex.get();
+			lex.unget(first);
+			prog = ProgramNode.getHandler(first.getType(), env);
+			if (prog != null){
+				prog.parse();
+				prog.getValue();
 			}
-
+			else System.out.println("syntax error");
+		}
+		catch(Exception e) {
+			System.out.println("execution error");
+		}
 	}
 
 }

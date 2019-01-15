@@ -2,18 +2,19 @@ package newlang4;
 
 import newlang3.LexicalType;
 import newlang3.LexicalUnit;
+import newlang3.Value;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CallSubNode extends Node {
+public class CallFuncNode extends Node {
     static Set<LexicalType> first = new HashSet<>(Arrays.asList(LexicalType.NAME));
     String name;
     Node exprList;
     LexicalUnit lp_unit = null;
 
-    private CallSubNode(Environment env){
+    private CallFuncNode(Environment env){
         super(env);
         type = NodeType.FUNCTION_CALL;
     }
@@ -23,7 +24,7 @@ public class CallSubNode extends Node {
     }
 
     public static Node getHandler(LexicalType type, Environment env){
-        return new CallSubNode(env);
+        return new CallFuncNode(env);
     }
 
     public void parse() throws Exception{
@@ -60,5 +61,10 @@ public class CallSubNode extends Node {
     @Override
     public String toString(){
         return name + exprList.toString();
+    }
+
+    @Override
+    public Value getValue() throws Exception {
+        return null;
     }
 }

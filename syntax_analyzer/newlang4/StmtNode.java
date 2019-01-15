@@ -36,8 +36,8 @@ public class StmtNode extends Node {
                     return SubstNode.getHandler(lu.getType(), env);
                 }
 
-                else if(CallSubNode.isMatch(lu.getType())){
-                    return CallSubNode.getHandler(lu.getType(),env);
+                else if(CallFuncNode.isMatch(lu.getType())){
+                    return CallFuncNode.getHandler(lu.getType(),env);
                 }
 
                 else{

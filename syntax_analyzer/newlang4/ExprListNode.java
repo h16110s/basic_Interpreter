@@ -4,6 +4,7 @@ package newlang4;
 import newlang3.LexicalAnalyzer;
 import newlang3.LexicalType;
 import newlang3.LexicalUnit;
+import newlang3.Value;
 
 import java.util.*;
 
@@ -55,5 +56,9 @@ public class ExprListNode extends Node {
 
     public int size(){
         return child.size();
+    }
+
+    public Value getElement(int num){
+        return null;
     }
 }

@@ -2,6 +2,7 @@ package newlang4;
 
 import newlang3.LexicalType;
 import newlang3.LexicalUnit;
+import newlang3.Value;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -9,7 +10,7 @@ import java.util.Set;
 
 public class SubstNode extends Node {
     static final Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(LexicalType.NAME));
-    LexicalUnit leftVar;
+    Node leftVar;
     Node expr_handler;
 
 
@@ -29,7 +30,8 @@ public class SubstNode extends Node {
     public void parse() throws Exception{
         LexicalUnit lu;
         //<NAME>
-        leftVar = env.input.get();
+        lu = env.input.get();
+        leftVar = VariableNode.getHandler(lu);
 
         //<EQ>
         lu = env.getInput().get();
@@ -51,7 +53,13 @@ public class SubstNode extends Node {
 
     @Override
     public String toString(){
-        return leftVar.getValue().getSValue() + expr_handler.toString();
+        return leftVar.toString()+ expr_handler.toString();
     }
 
+    @Override
+    public Value getValue() throws Exception {
+        Value rv = expr_handler.getValue();
+//        leftVar.setValue(rv);
+        return null;
+    }
 }

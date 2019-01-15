@@ -70,10 +70,16 @@ public class Node {
     public Value getValue() throws Exception {
         return null;
     }
+
+    public void setValue(Value v) throws Exception{
+        throw new Exception("Can't Set Value of" + type);
+    }
  
     public String toString() {
     	if (type == NodeType.END) return "END";
     	else return "Node";        
     }
+
+
 
 }
