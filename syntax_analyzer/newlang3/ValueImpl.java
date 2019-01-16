@@ -11,7 +11,11 @@ public class ValueImpl implements Value {
     //コンストラクタ
     public ValueImpl(String src, ValueType targetType){
         this.type = targetType;
+        this.svalue = src;
         switch (targetType){
+            //String型である場合
+            case STRING:
+                break;
             //intである場合
             case INTEGER:
                 this.ivalue = Integer.parseInt(src);
@@ -19,10 +23,6 @@ public class ValueImpl implements Value {
             //doubleである場合
             case DOUBLE:
                 this.dvalue = Double.parseDouble(src);
-                break;
-            //String型である場合
-            case STRING:
-                this.svalue = src;
                 break;
             //Bool型である場合
             case BOOL:

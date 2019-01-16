@@ -1,7 +1,6 @@
 package newlang4;
 
-import newlang3.LexicalType;
-import newlang3.LexicalUnit;
+import newlang3.*;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -54,5 +53,9 @@ public class ConstNode extends Node {
                 default:
                     return null;
         }
+    }
+
+    public Value getValue(){
+        return const_value.getValue();
     }
 }

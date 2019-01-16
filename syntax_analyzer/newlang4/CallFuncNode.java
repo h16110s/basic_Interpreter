@@ -11,7 +11,7 @@ import java.util.Set;
 public class CallFuncNode extends Node {
     static Set<LexicalType> first = new HashSet<>(Arrays.asList(LexicalType.NAME));
     String name;
-    Node exprList;
+    ExprListNode exprList = null;
     LexicalUnit lp_unit = null;
 
     private CallFuncNode(Environment env){
@@ -32,27 +32,27 @@ public class CallFuncNode extends Node {
 
 //        function name
         if(name_unit.getType() != LexicalType.NAME)
-            throw new Exception("CallSub parse error:" + env.getInput().getLine());
+            throw new Exception("CallFunc parse error:" + env.getInput().getLine());
         this.name = name_unit.getValue().getSValue();
 
 //        <LP> あったら回収
         lp_unit = env.getInput().get();
         if(lp_unit.getType() != LexicalType.LP)
-            throw new Exception("CallSub missing \"(\"" + env.getInput().getLine());
+            throw new Exception("CallFunc missing \"(\"" + env.getInput().getLine());
 //            env.getInput().unget(lp_unit);
 
 //        <Expr>
         LexicalUnit expr_unit = env.getInput().get();
-        if(ExprNode.isMatch(expr_unit.getType())){
+        if(ExprListNode.isMatch(expr_unit.getType())){
             env.getInput().unget(expr_unit);
-            this.exprList = ExprNode.getHandler(expr_unit.getType(), env);
+            this.exprList = ExprListNode.getHandler(env);
             this.exprList.parse();
         }
 
 //        <RP>　あったら回収
         LexicalUnit rp_unit = env.getInput().get();
         if(rp_unit.getType() != LexicalType.RP)
-            throw new Exception("CallSub missing \")\"" + env.getInput().getLine());
+            throw new Exception("CallFunc missing \")\"" + env.getInput().getLine());
 //            env.getInput().unget(rp_unit);
 
 
@@ -65,6 +65,6 @@ public class CallFuncNode extends Node {
 
     @Override
     public Value getValue() throws Exception {
-        return null;
+        return env.getFunction(name).invoke(exprList);
     }
 }

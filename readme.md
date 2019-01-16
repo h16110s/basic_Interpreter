@@ -51,3 +51,11 @@
     - Variable
         いろいろ
 - Main
+
+## Interpreter (newlang5)
+インタプリタ
+- Function
+    関数管理
+- PrintFunction
+    PRINT関数定義
+- Main

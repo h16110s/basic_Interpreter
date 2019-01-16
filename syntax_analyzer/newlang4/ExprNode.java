@@ -2,8 +2,10 @@ package newlang4;
 
 import newlang3.LexicalType;
 import newlang3.LexicalUnit;
+import newlang3.Value;
 
 import java.util.*;
+
 //
 //<expr>	::=
 //  <expr> <ADD> <expr>
@@ -21,6 +23,9 @@ import java.util.*;
 public class ExprNode extends Node {
     List<LexicalType> operators = new ArrayList<>();
     List<Node> operands = new ArrayList<>();
+    Deque<LexicalUnit> mainStack = new ArrayDeque<>();
+    Deque<LexicalUnit> opStack = new ArrayDeque<>();
+
     private Node left;
     private Node right;
 
@@ -84,6 +89,7 @@ public class ExprNode extends Node {
                 break;
             }
         }
+
     }
 
     @Override
@@ -122,5 +128,16 @@ public class ExprNode extends Node {
         }
         tmp += operands.get(operands.size()-1).toString();
         return tmp + "]";
+    }
+
+    @Override
+    public Value getValue() throws Exception {
+        for (Node n: operands){
+            switch (n.getType()){
+                case STRING_CONSTANT:
+                    return n.getValue();
+            }
+        }
+        return null;
     }
 }

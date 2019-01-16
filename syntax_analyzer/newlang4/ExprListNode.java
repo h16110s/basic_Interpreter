@@ -31,6 +31,10 @@ public class ExprListNode extends Node {
         return new ExprListNode(env);
     }
 
+    public static ExprListNode getHandler(Environment env){
+        return new ExprListNode(env);
+    }
+
     public void parse() throws Exception{
         while (true){
             LexicalUnit lu = env.getInput().get();
@@ -48,7 +52,8 @@ public class ExprListNode extends Node {
             if(comma_unit.getType() == LexicalType.COMMA) {
                 continue;
             }
-            else if(comma_unit.getType() == LexicalType.NL){
+            else{
+                env.getInput().unget(comma_unit);
                 break;
             }
         }
@@ -58,7 +63,17 @@ public class ExprListNode extends Node {
         return child.size();
     }
 
-    public Value getElement(int num){
-        return null;
+    public Value getElement(int num) throws Exception {
+        return child.get(num).getValue();
+    }
+
+    @Override
+    public String toString(){
+        String s = "(";
+        for(Node n : child){
+            s += n.toString();
+            s += ",";
+        }
+        return s + ")";
     }
 }

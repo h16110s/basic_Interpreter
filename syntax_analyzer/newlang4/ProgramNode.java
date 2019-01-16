@@ -2,6 +2,7 @@ package newlang4;
 
 import newlang3.LexicalType;
 import newlang3.LexicalUnit;
+import newlang3.Value;
 
 public class ProgramNode extends Node {
     Node stmtlist_handler;
@@ -28,5 +29,10 @@ public class ProgramNode extends Node {
     @Override
     public String toString(){
         return stmtlist_handler.toString();
+    }
+
+    public Value getValue() throws Exception{
+        stmtlist_handler.getValue();
+        return null;
     }
 }

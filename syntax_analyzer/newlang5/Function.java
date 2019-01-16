@@ -15,7 +15,7 @@ public class Function {
 
     //関数呼び出し
     //ExprListで引数渡しをしなくても良い
-    public Value invoke(ExprListNode arg) {
+    public Value invoke(ExprListNode arg) throws Exception {
     	return null;        
     }
     

@@ -45,6 +45,7 @@ public class VariableNode extends Node {
     public void setValue(Value input){
         this.value = input;
     }
+
     @Override
     public String toString(){
         return this.name;
