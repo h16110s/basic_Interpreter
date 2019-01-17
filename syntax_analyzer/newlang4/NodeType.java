@@ -20,4 +20,8 @@ public enum NodeType {
     BOOL_CONSTANT,
     END,
 	VARIABLE,
+	ADD_OPERATOR,
+	MUL_OPERATOR,
+	SUB_OPERATOR,
+	DIV_OPERATOR,
 }

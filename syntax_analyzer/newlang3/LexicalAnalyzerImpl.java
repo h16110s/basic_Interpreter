@@ -14,7 +14,7 @@ import java.util.Queue;
  * @author Hirohito Saito
  */
 public class LexicalAnalyzerImpl implements LexicalAnalyzer {
-    Queue<LexicalUnit> ungetQue = new ArrayDeque<LexicalUnit>();
+    Deque<LexicalUnit> ungetQue = new ArrayDeque<LexicalUnit>();
 
     PushbackReader reader;
 
@@ -227,6 +227,6 @@ public class LexicalAnalyzerImpl implements LexicalAnalyzer {
 
     @Override
     public void unget(LexicalUnit token) throws Exception {
-        ungetQue.add(token);
+        ungetQue.addFirst(token);
     }
 }

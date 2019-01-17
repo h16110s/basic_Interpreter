@@ -1,47 +1,59 @@
 package newlang4;
 
 import newlang3.LexicalType;
+import newlang3.LexicalUnit;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 public class OperatorNode extends Node {
-    private LexicalType operator;
-
-    private final static Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(
-            LexicalType.EQ,
-            LexicalType.LT,
-            LexicalType.GT,
-            LexicalType.LE,
-            LexicalType.LE,
-            LexicalType.GE,
-            LexicalType.GE,
-            LexicalType.NE,
-            LexicalType.DOT,
-            LexicalType.ADD,
-            LexicalType.SUB,
-            LexicalType.MUL,
+    static final Set<LexicalType> first = new HashSet<>(Arrays.asList(
             LexicalType.DIV,
-            LexicalType.LP,
-            LexicalType.RP
-    ));
+            LexicalType.MUL,
+            LexicalType.SUB,
+            LexicalType.ADD));
 
-    public static boolean isMatch(LexicalType type){
+    private OperatorNode(LexicalUnit unit, Environment env){
+        super(env);
+        switch(unit.getType()){
+            case ADD:
+                type = NodeType.ADD_OPERATOR;
+                break;
+            case MUL:
+                type = NodeType.MUL_OPERATOR;
+                break;
+            case SUB:
+                type = NodeType.SUB_OPERATOR;
+                break;
+            case DIV:
+                type = NodeType.DIV_OPERATOR;
+                break;
+        }
+
+    }
+
+    static boolean isMatch(LexicalType type){
         return first.contains(type);
     }
 
-    private OperatorNode(LexicalType t, Environment env){
-        super(env);
-        type = NodeType.EXPR;
-        operator = t;
+    static Node getHandler(LexicalUnit unit, Environment env){
+        return new OperatorNode(unit, env);
     }
 
-    public static Node getHandler(LexicalType type, Environment env){
-        return new OperatorNode(type,env);
-    }
-
-    public LexicalType getOp(){
-        return operator;
+    @Override
+    public String toString(){
+        switch (type){
+            case ADD_OPERATOR:
+                return "+";
+            case MUL_OPERATOR:
+                return "*";
+            case SUB_OPERATOR:
+                return "-";
+            case DIV_OPERATOR:
+                return "/";
+            default:
+                    return null;
+        }
     }
 }

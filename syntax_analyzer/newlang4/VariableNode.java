@@ -12,9 +12,10 @@ public class VariableNode extends Node {
     private Value value;
 
     public VariableNode(String name) {
-        name = name;
+        type = NodeType.VARIABLE;
+        this.name = name;
     }
-    public VariableNode(LexicalUnit u) {
+    private VariableNode(LexicalUnit u) {
         name = u.getValue().getSValue();
     }
 
@@ -23,24 +24,23 @@ public class VariableNode extends Node {
         type = NodeType.VARIABLE;
     }
 
-    public void parse() throws Exception{
-        LexicalUnit lu = env.input.get();
-        if(lu.getType() == LexicalType.NAME){
-            this.name = lu.getValue().getSValue();
-        }
-        else{
-            throw new Exception("Variable Node Error: " + lu);
-        }
-    }
-
-    public static Node getHandler(LexicalType type, Environment env){
-        return new VariableNode(env);
-    }
-
     public static Node getHandler(LexicalUnit lu){
         return new VariableNode(lu);
     }
 
+    public static Node getHandler(LexicalType first, Environment env) {
+        if (first == LexicalType.NAME) {
+            VariableNode v;
+            try {
+                LexicalUnit lu = env.getInput().get();
+                String s = lu.getValue().getSValue();
+                v = env.getVariable(s);
+                return v;
+            }
+            catch(Exception e) {}
+        }
+        return null;
+    }
 
     public void setValue(Value input){
         this.value = input;
@@ -49,5 +49,9 @@ public class VariableNode extends Node {
     @Override
     public String toString(){
         return this.name;
+    }
+
+    public Value getValue() throws Exception {
+        return value;
     }
 }

@@ -31,7 +31,8 @@ public class SubstNode extends Node {
         LexicalUnit lu;
         //<NAME>
         lu = env.input.get();
-        leftVar = VariableNode.getHandler(lu);
+        env.getInput().unget(lu);
+        leftVar = VariableNode.getHandler(lu.getType(),env);
 
         //<EQ>
         lu = env.getInput().get();
@@ -59,7 +60,7 @@ public class SubstNode extends Node {
     @Override
     public Value getValue() throws Exception {
         Value rv = expr_handler.getValue();
-//        leftVar.setValue(rv);
+        leftVar.setValue(rv);
         return null;
     }
 }

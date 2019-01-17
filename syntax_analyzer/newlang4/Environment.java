@@ -10,14 +10,14 @@ import java.util.Map;
 
 public class Environment {
 	Map library;		//Basicから呼び出せる関数の表
-	Map var_map;
+	Map<String, Node> var_map;
 	LexicalAnalyzer input;
 
 	public Environment(LexicalAnalyzer my_input) {
 		input = my_input;
 		library = new HashMap();
 		library.put("PRINT", new PrintFunction() );		//PRINTはあらかじめ用意
-		var_map = new HashMap();
+		var_map = new HashMap<>();
 	}
 
 	public LexicalAnalyzer getInput() {

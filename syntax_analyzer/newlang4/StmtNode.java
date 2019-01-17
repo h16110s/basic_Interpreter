@@ -29,8 +29,8 @@ public class StmtNode extends Node {
             case NAME:
                 LexicalUnit second_unit = env.getInput().get();
                 //2個分戻す
-                env.getInput().unget(lu);
                 env.getInput().unget(second_unit);
+                env.getInput().unget(lu);
 
                 if(second_unit.getType() == LexicalType.EQ){
                     return SubstNode.getHandler(lu.getType(), env);
