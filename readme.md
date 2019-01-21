@@ -1,4 +1,15 @@
 # 実践的プログラミング　
+実践的プログラミングの授業にて作成したBASICインタプリタ（仮）
+最低限以下のソースコードが実行できるようになっている.
+``` BASIC
+a = 5
+DO UNTIL a < 1
+PRINT ("Hello World”)
+a = a – 1
+LOOP
+END
+```
+
 
 ## LexicalAnalyzer (newlang3)
 字句解析プログラム 
@@ -55,7 +66,7 @@
 ## Interpreter (newlang5)
 インタプリタ
 - Function
-    関数管理
+    関数管理の抽象クラス
 - PrintFunction
     PRINT関数定義
 - Main
