@@ -55,7 +55,7 @@ public class ConstNode extends Node {
         }
     }
 
-    public Value getValue(){
+ public Value getValue(){
         return const_value.getValue();
     }
 }

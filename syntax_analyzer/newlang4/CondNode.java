@@ -3,10 +3,13 @@ package newlang4;
 import newlang3.LexicalType;
 import newlang3.LexicalUnit;
 import newlang3.Value;
+import newlang3.ValueImpl;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
+import static newlang3.ValueType.BOOL;
 
 // <cond> ::=
 // <expr> <EQ> <expr>
@@ -64,5 +67,56 @@ public class CondNode extends Node {
     @Override
     public String toString(){
         return operator_unit.getType().toString() + left.toString()+ ":" +right.toString();
+    }
+
+
+    public Value getValue() throws Exception{
+        Value r = right.getValue();
+        Value l = left.getValue();
+        switch (operator_unit.getType()){
+            case EQ:
+                if(l.getIValue() == r.getIValue()){
+                    return new ValueImpl("true",BOOL);
+                }
+                else{
+                    return new ValueImpl("false",BOOL);
+                }
+            case LT:
+                if(l.getIValue() < r.getIValue()){
+                    return new ValueImpl("true",BOOL);
+                }
+                else{
+                    return new ValueImpl("false",BOOL);
+                }
+            case GT:
+                if(l.getIValue() > r.getIValue()){
+                    return new ValueImpl("true",BOOL);
+                }
+                else{
+                    return new ValueImpl("false",BOOL);
+                }
+            case LE:
+                if(l.getIValue() <= r.getIValue()){
+                    return new ValueImpl("true",BOOL);
+                }
+                else{
+                    return new ValueImpl("false",BOOL);
+                }
+            case GE:
+                if(l.getIValue() >= r.getIValue()){
+                    return new ValueImpl("true",BOOL);
+                }
+                else{
+                    return new ValueImpl("false",BOOL);
+                }
+            case NE:
+                if(l.getIValue() != r.getIValue()){
+                    return new ValueImpl("true",BOOL);
+                }
+                else{
+                    return new ValueImpl("false",BOOL);
+                }
+        }
+        return new ValueImpl("false",BOOL);
     }
 }

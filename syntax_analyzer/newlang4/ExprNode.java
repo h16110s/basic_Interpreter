@@ -26,7 +26,7 @@ import static newlang3.ValueType.*;
 public class ExprNode extends Node {
     List<Node> operands = new ArrayList<>();
     List<Node> operatorsList = new ArrayList<>();
-    Queue<Node> mainQueue = new ArrayDeque<>();
+    List<Node> reversePolish = new ArrayList<>();
     Deque<Node> opStack = new ArrayDeque<>();
 
     static final Map<NodeType,Integer> PRIORITY = new HashMap<>();
@@ -36,7 +36,6 @@ public class ExprNode extends Node {
         PRIORITY.put(NodeType.SUB_OPERATOR,3);
         PRIORITY.put(NodeType.ADD_OPERATOR,3);
     }
-
 
     static final Set<LexicalType> first = new HashSet<LexicalType>(Arrays.asList(
             LexicalType.NAME,
@@ -59,6 +58,7 @@ public class ExprNode extends Node {
     }
 
     public void parse() throws Exception {
+        Queue<Node> readQueue = new ArrayDeque<>();
         while (true) {
 //      <Operand>
             LexicalUnit lu = env.getInput().get();
@@ -68,7 +68,7 @@ public class ExprNode extends Node {
                     Node vn = VariableNode.getHandler(lu.getType(),env);
                     vn.parse();
                     operands.add(vn);
-                    mainQueue.add(vn);
+                    readQueue.add(vn);
                     break;
                 case LP:
                     LexicalUnit lp_unit = env.getInput().get();
@@ -79,14 +79,14 @@ public class ExprNode extends Node {
                     if (rp_unit.getType() != LexicalType.RP)
                         throw new Exception("Expr Node Missing RP: " + env.getInput().getLine());
                     operands.add(n);
-                    mainQueue.add(n);
+                    readQueue.add(n);
                     break;
                 case INTVAL:
                 case DOUBLEVAL:
                 case LITERAL:
                     Node cn = ConstNode.getHandler(lu, env);
                     operands.add(cn);
-                    mainQueue.add(cn);
+                    readQueue.add(cn);
                     cn.parse();
                     break;
                 default:
@@ -109,7 +109,7 @@ public class ExprNode extends Node {
                         if(opStack.peekFirst() == null ||
                                 PRIORITY.get(opStack.peekFirst().getType()) > PRIORITY.get(op.getType()))
                             break;
-                        mainQueue.add(opStack.poll());
+                        readQueue.add(opStack.poll());
                     }
                     opStack.push(op);
                 }
@@ -118,10 +118,13 @@ public class ExprNode extends Node {
                 while(true){
                     if(opStack.peekFirst() == null)
                         break;
-                    mainQueue.add(opStack.poll());
+                    readQueue.add(opStack.poll());
                 }
                 break;
             }
+        }
+        while(readQueue.peek() != null){
+            reversePolish.add(readQueue.poll());
         }
     }
 
@@ -150,6 +153,11 @@ public class ExprNode extends Node {
 
     @Override
     public Value getValue() throws Exception{
+        Queue<Node> mainQueue = new ArrayDeque<>();
+        for(int i = 0; i < reversePolish.size(); i++){
+            mainQueue.add(reversePolish.get(i));
+        }
+
         if(mainQueue.peek().getType() == NodeType.STRING_CONSTANT){
             String s = "";
             while (mainQueue.peek() != null){
@@ -178,25 +186,25 @@ public class ExprNode extends Node {
                         mainQueue.poll();
                         int s1 = subQueue.poll().getIValue();
                         int s2 = subQueue.poll().getIValue();
-                        subQueue.push(new ValueImpl(String.valueOf(s1 - s2),INTEGER));
+                        subQueue.push(new ValueImpl(String.valueOf(s2 - s1),INTEGER));
                         break;
                     case MUL_OPERATOR:
                         mainQueue.poll();
                         int m1 = subQueue.poll().getIValue();
                         int m2 = subQueue.poll().getIValue();
-                        subQueue.push(new ValueImpl(String.valueOf(m1 * m2),INTEGER));
+                        subQueue.push(new ValueImpl(String.valueOf(m2 * m1),INTEGER));
                         break;
                     case DIV_OPERATOR:
                         mainQueue.poll();
                         int d1 = subQueue.poll().getIValue();
                         int d2 = subQueue.poll().getIValue();
-                        subQueue.push(new ValueImpl(String.valueOf(d1 / d2),INTEGER));
+                        subQueue.push(new ValueImpl(String.valueOf(d2 / d1),INTEGER));
                         break;
                     case ADD_OPERATOR:
                         mainQueue.poll();
                         int a1 = subQueue.poll().getIValue();
                         int a2 = subQueue.poll().getIValue();
-                        subQueue.push(new ValueImpl(String.valueOf(a1 + a2),INTEGER));
+                        subQueue.push(new ValueImpl(String.valueOf(a2 + a1),INTEGER));
                         break;
                     case INT_CONSTANT:
                         subQueue.push(mainQueue.poll().getValue());
@@ -215,25 +223,25 @@ public class ExprNode extends Node {
                         mainQueue.poll();
                         double s1 = subQueue.poll().getDValue();
                         double s2 = subQueue.poll().getDValue();
-                        subQueue.push(new ValueImpl(String.valueOf(s1 - s2),DOUBLE));
+                        subQueue.push(new ValueImpl(String.valueOf(s2 - s1),DOUBLE));
                         break;
                     case MUL_OPERATOR:
                         mainQueue.poll();
                         double m1 = subQueue.poll().getDValue();
                         double m2 = subQueue.poll().getDValue();
-                        subQueue.push(new ValueImpl(String.valueOf(m1 * m2),DOUBLE));
+                        subQueue.push(new ValueImpl(String.valueOf(m2 * m1),DOUBLE));
                         break;
                     case DIV_OPERATOR:
                         mainQueue.poll();
                         double d1 = subQueue.poll().getDValue();
                         double d2 = subQueue.poll().getDValue();
-                        subQueue.push(new ValueImpl(String.valueOf(d1 / d2),DOUBLE));
+                        subQueue.push(new ValueImpl(String.valueOf(d2 / d1),DOUBLE));
                         break;
                     case ADD_OPERATOR:
                         mainQueue.poll();
                         double a1 = subQueue.poll().getDValue();
                         double a2 = subQueue.poll().getDValue();
-                        subQueue.push(new ValueImpl(String.valueOf(a1 + a2),DOUBLE));
+                        subQueue.push(new ValueImpl(String.valueOf(a2 + a1),DOUBLE));
                         break;
                     case DOUBLE_CONSTANT:
                         subQueue.push(mainQueue.poll().getValue());
@@ -253,25 +261,25 @@ public class ExprNode extends Node {
                         mainQueue.poll();
                         int  s1 = subQueue.poll().getIValue();
                         int  s2 = subQueue.poll().getIValue();
-                        subQueue.push(new ValueImpl(String.valueOf(s1 - s2),INTEGER));
+                        subQueue.push(new ValueImpl(String.valueOf(s2 - s1),INTEGER));
                         break;
                     case MUL_OPERATOR:
                         mainQueue.poll();
                         int  m1 = subQueue.poll().getIValue();
                         int  m2 = subQueue.poll().getIValue();
-                        subQueue.push(new ValueImpl(String.valueOf(m1 * m2),INTEGER));
+                        subQueue.push(new ValueImpl(String.valueOf(m2 * m1),INTEGER));
                         break;
                     case DIV_OPERATOR:
                         mainQueue.poll();
                         int d1 = subQueue.poll().getIValue();
                         int d2 = subQueue.poll().getIValue();
-                        subQueue.push(new ValueImpl(String.valueOf(d1 / d2),INTEGER));
+                        subQueue.push(new ValueImpl(String.valueOf(d2 / d1),INTEGER));
                         break;
                     case ADD_OPERATOR:
                         mainQueue.poll();
                         int a1 = subQueue.poll().getIValue();
                         int a2 = subQueue.poll().getIValue();
-                        subQueue.push(new ValueImpl(String.valueOf(a1 + a2),INTEGER));
+                        subQueue.push(new ValueImpl(String.valueOf(a2 + a1),INTEGER));
                         break;
                     case VARIABLE:
                         Node vn = env.getVariable(mainQueue.poll().toString());
