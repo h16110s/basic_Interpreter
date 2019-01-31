@@ -2,6 +2,7 @@ package newlang4;
 
 import newlang3.LexicalType;
 import newlang3.LexicalUnit;
+import newlang3.Value;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -26,8 +27,6 @@ public class IfBlockNode extends Node {
     Node stmt_handler = null;
     Node else_if_stmt_handler = null;
     Node else_stmt_handler = null;
-
-
 
     public static boolean isMatch(LexicalType type) {
         return first.contains(type);
@@ -146,5 +145,20 @@ public class IfBlockNode extends Node {
             tmp += "]ELSE[" + else_stmt_handler.toString();
         }
         return tmp + "]";
+    }
+
+    @Override
+    public Value getValue() throws Exception {
+        Value vcond = cond_handler.getValue();
+        if (vcond.getBValue()){
+            stmt_handler.getValue();
+        }
+        else if (else_if_stmt_handler != null){
+            else_if_stmt_handler.getValue();
+        }
+        else{
+            else_stmt_handler.getValue();
+        }
+        return null;
     }
 }

@@ -1,7 +1,6 @@
 package newlang4;
 
 import newlang3.LexicalAnalyzer;
-import newlang4.VariableNode;
 import newlang5.Function;
 import newlang5.PrintFunction;
 

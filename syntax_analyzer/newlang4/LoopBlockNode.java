@@ -16,8 +16,8 @@ import java.util.Set;
 
 
 public class LoopBlockNode extends Node {
-    Node cond_handler;
-    Node stmtList_handler;
+    private Node cond_handler;
+    private Node stmtList_handler;
 
     static final Set<LexicalType> first = new HashSet<>(Arrays.asList(
             LexicalType.DO,
@@ -25,7 +25,7 @@ public class LoopBlockNode extends Node {
     ));
 
 
-    public LoopBlockNode(Environment env){
+    private LoopBlockNode(Environment env){
         super(env);
         type = NodeType.LOOP_BLOCK;
     }

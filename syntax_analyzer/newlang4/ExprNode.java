@@ -153,10 +153,7 @@ public class ExprNode extends Node {
 
     @Override
     public Value getValue() throws Exception{
-        Queue<Node> mainQueue = new ArrayDeque<>();
-        for(int i = 0; i < reversePolish.size(); i++){
-            mainQueue.add(reversePolish.get(i));
-        }
+        Queue<Node> mainQueue = new ArrayDeque<>(reversePolish);
 
         if(mainQueue.peek().getType() == NodeType.STRING_CONSTANT){
             String s = "";
@@ -209,6 +206,10 @@ public class ExprNode extends Node {
                     case INT_CONSTANT:
                         subQueue.push(mainQueue.poll().getValue());
                         break;
+                    case VARIABLE:
+                        Node vn = env.getVariable(mainQueue.poll().toString());
+                        subQueue.push(vn.getValue());
+                        break;
                     default:
                         throw new Exception("Can't Expr (INT_CONSTANT)");
                 }
@@ -245,6 +246,10 @@ public class ExprNode extends Node {
                         break;
                     case DOUBLE_CONSTANT:
                         subQueue.push(mainQueue.poll().getValue());
+                        break;
+                    case VARIABLE:
+                        Node vn = env.getVariable(mainQueue.poll().toString());
+                        subQueue.push(vn.getValue());
                         break;
                     default:
                         throw new Exception("Can't Expr (INT_CONSTANT)");
@@ -310,59 +315,5 @@ public class ExprNode extends Node {
         }
         return null;
     }
-//    @Override
-//    public Value getValue() throws Exception {
-//        NodeType mode = null;
-//        String s = "";
-//        int i = 0;
-//        double d =0;
-//
-//        if (operands.get(0).getType() == NodeType.STRING_CONSTANT) {
-//            for (Node n : operands) {
-//                s += n.getValue().getSValue();
-//            }
-//            return new ValueImpl(s, STRING);
-//        } else if (operands.get(0).getType() == NodeType.INT_CONSTANT) {
-//            i = operands.get(0).getValue().getIValue();
-//            for (int j = 0; j < operatorsList.size(); j++) {
-//                switch (operatorsList.get(j).getType()){
-//                    case SUB_OPERATOR:
-//                        i -= operands.get(j+1).getValue().getIValue();
-//                        break;
-//                    case DIV_OPERATOR:
-//                        i /= operands.get(j+1).getValue().getIValue();
-//                        break;
-//                    case MUL_OPERATOR:
-//                        i *= operands.get(j+1).getValue().getIValue();
-//                        break;
-//                    case ADD_OPERATOR:
-//                        i += operands.get(j+1).getValue().getIValue();
-//                        break;
-//                }
-//            }
-//            return new ValueImpl(String.valueOf(i), INTEGER);
-//        } else if (operands.get(0).getType() == NodeType.DOUBLE_CONSTANT) {
-//            d = operands.get(0).getValue().getDValue();
-//            for (int j = 0; j < operatorsList.size(); j++) {
-//                switch (operatorsList.get(j).getType()){
-//                    case SUB_OPERATOR:
-//                        d -= operands.get(j+1).getValue().getDValue();
-//                        break;
-//                    case DIV_OPERATOR:
-//                        d /= operands.get(j+1).getValue().getDValue();
-//                        break;
-//                    case MUL_OPERATOR:
-//                        d *= operands.get(j+1).getValue().getDValue();
-//                        break;
-//                    case ADD_OPERATOR:
-//                        d += operands.get(j+1).getValue().getDValue();
-//                        break;
-//                }
-//            }
-//            return new ValueImpl(String.valueOf(d), DOUBLE);
-//        } else if (operands.get(0).getType() == NodeType.VARIABLE){
-//        }
-//        return null;
-//    }
 }
 

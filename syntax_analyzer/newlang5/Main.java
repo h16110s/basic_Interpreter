@@ -3,11 +3,11 @@ package newlang5;
 import newlang3.LexicalAnalyzer;
 import newlang3.LexicalAnalyzerImpl;
 import newlang3.LexicalUnit;
+import newlang4.Environment;
 import newlang4.Node;
 import newlang4.ProgramNode;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 public class Main {
 
@@ -18,11 +18,11 @@ public class Main {
 		FileInputStream fin = null;
 		LexicalAnalyzer lex;
 		LexicalUnit		first;
-		Environment		env;
-		Node			prog;
+		Environment env;
+		Node prog;
 		System.out.println("basic parser");
 		try {
-			fin = new FileInputStream("/Users/hiro16110/gLocal/basic_interpreter/syntax_analyzer/newlang5/test.bas");
+			fin = new FileInputStream("D:\\Git\\basic_Interpreter\\syntax_analyzer\\newlang5\\test.bas");
 		}
 		catch(Exception e) {
 			System.out.println("file not found");
@@ -37,6 +37,7 @@ public class Main {
 			prog = ProgramNode.getHandler(first.getType(), env);
 			if (prog != null){
 				prog.parse();
+//				System.out.println(prog.toString());
 				prog.getValue();
 			}
 			else System.out.println("syntax error");
@@ -45,5 +46,4 @@ public class Main {
 			System.out.println("execution error");
 		}
 	}
-
 }
